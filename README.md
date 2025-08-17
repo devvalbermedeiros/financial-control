@@ -71,29 +71,7 @@ docker-compose -f compose.yaml up -d
 
 Este comando irá iniciar os serviços necessários em segundo plano. Você pode verificar o status dos containers com `docker-compose ps`.
 
-### 3. Construir o Projeto
-
-Navegue até o diretório raiz do projeto e construa a aplicação usando Gradle:
-
-```bash
-./gradlew clean build
-```
-
-### 4. Rodar a Aplicação
-
-Após a construção bem-sucedida, você pode rodar a aplicação Spring Boot:
-
-```bash
-java -jar build/libs/financial-control-0.0.1-SNAPSHOT.jar
-```
-
-Ou, se preferir rodar via Gradle:
-
-```bash
-./gradlew bootRun
-```
-
-A aplicação estará disponível em `http://localhost:8080`.
+A aplicação estará disponível em `http://localhost:8080` após a inicialização dos serviços.
 
 ## Uso
 

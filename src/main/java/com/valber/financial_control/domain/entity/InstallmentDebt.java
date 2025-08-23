@@ -1,7 +1,9 @@
 package com.valber.financial_control.domain.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,6 +13,8 @@ import java.time.LocalDate;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Document(collection = "debts")
+@AllArgsConstructor
+@NoArgsConstructor
 public class InstallmentDebt extends Debt {
 
     private BigDecimal totalAmount;

@@ -1,3 +1,4 @@
+
 package com.valber.financial_control.application.usecases.transaction;
 
 import com.valber.financial_control.domain.entity.Debt;
@@ -27,7 +28,7 @@ public class ListTransactionsUseCaseImpl implements ListTransactionsUseCase {
     }
 
     @Override
-    @PreAuthorize("principal.id == #userId")
+    @PreAuthorize("principal.username == #userId")
     public List<Transaction> listTransactions(String userId, Month month, Year year) {
         LocalDate startDate = year.atMonth(month).atDay(1);
         LocalDate endDate = year.atMonth(month).atEndOfMonth();
@@ -40,3 +41,4 @@ public class ListTransactionsUseCaseImpl implements ListTransactionsUseCase {
                 .collect(Collectors.toList());
     }
 }
+

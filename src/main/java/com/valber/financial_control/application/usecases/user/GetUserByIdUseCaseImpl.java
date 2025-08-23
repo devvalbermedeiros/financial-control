@@ -16,7 +16,7 @@ public class GetUserByIdUseCaseImpl implements GetUserByIdUseCase {
     }
 
     @Override
-    @PreAuthorize("principal.id == #id or hasRole('ADMIN')")
+    @PreAuthorize("principal.username == #id or hasRole('ADMIN')")
     public User getUserById(String id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));

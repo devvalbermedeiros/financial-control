@@ -1,3 +1,4 @@
+
 package com.valber.financial_control.application.usecases.transaction;
 
 import com.valber.financial_control.domain.entity.Revenue;
@@ -15,7 +16,7 @@ public class AddRevenueUseCaseImpl implements AddRevenueUseCase {
     }
 
     @Override
-    @PreAuthorize("principal.id == #revenue.userId")
+    @PreAuthorize("principal.username == #revenue.userId")
     public Revenue addRevenue(Revenue revenue) {
         if (revenue.getAmount() == null || revenue.getAmount().signum() <= 0) {
             throw new IllegalArgumentException("Revenue amount must be positive.");
@@ -23,3 +24,4 @@ public class AddRevenueUseCaseImpl implements AddRevenueUseCase {
         return revenueRepository.save(revenue);
     }
 }
+

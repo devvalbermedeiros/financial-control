@@ -1,6 +1,8 @@
 package com.valber.financial_control.infrastructure.api;
 
 import com.valber.financial_control.domain.entity.User;
+import com.valber.financial_control.infrastructure.api.dto.LoginRequest;
+import com.valber.financial_control.infrastructure.api.dto.LoginResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -36,4 +38,12 @@ public interface UserApi {
     })
     @GetMapping
     ResponseEntity<List<User>> listAllUsers();
+
+    @Operation(summary = "Authenticate user and return JWT")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Authentication successful"),
+            @ApiResponse(responseCode = "401", description = "Invalid credentials")
+    })
+    @PostMapping("/login")
+    ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest);
 }

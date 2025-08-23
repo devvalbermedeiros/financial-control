@@ -4,6 +4,8 @@ package com.valber.financial_control.infrastructure.api.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.valber.financial_control.application.usecases.user.GetUserByIdUseCase;
 import com.valber.financial_control.domain.entity.User;
+import com.valber.financial_control.infrastructure.api.dto.LoginRequest;
+import com.valber.financial_control.infrastructure.config.security.JwtTokenProvider;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +13,17 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -36,8 +43,14 @@ class UserControllerTest {
     @MockBean
     private PasswordEncoder passwordEncoder;
 
-    @Mock
+    @MockBean
     private GetUserByIdUseCase getUserByIdUseCase;
+
+    @MockBean
+    private AuthenticationManager authenticationManager;
+
+    @MockBean
+    private JwtTokenProvider jwtTokenProvider;
 
     @Test
     void createUser_shouldReturnCreated() throws Exception {
@@ -79,5 +92,21 @@ class UserControllerTest {
         mockMvc.perform(get("/api/v1/users"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
+    }
+
+    @Test
+    void login_shouldReturnToken() throws Exception {
+        LoginRequest loginRequest = new LoginRequest("testuser", "password");
+        UserDetails userDetails = new org.springframework.security.core.userdetails.User("testuser", "password", List.of());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+        when(authenticationManager.authenticate(any())).thenReturn(authentication);
+        when(jwtTokenProvider.generateToken(any(UserDetails.class))).thenReturn("test-token");
+
+        mockMvc.perform(post("/api/v1/users/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.token").value("test-token"));
     }
 }

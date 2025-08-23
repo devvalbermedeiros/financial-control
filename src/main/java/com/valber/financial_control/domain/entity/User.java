@@ -25,7 +25,6 @@ public class User implements UserDetails {
     private String id;
     @Indexed(unique = true, background = true)
     private String username;
-    @JsonIgnore // Do not serialize password in API responses
     private String password;
     private List<String> roles;
 

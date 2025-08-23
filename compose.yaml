@@ -51,6 +51,15 @@ services:
     depends_on:
       - kafka
 
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend-app
+    ports:
+      - "3000:80"
+    depends_on:
+      - financial-control
+
 volumes:
   mongo-data:
   kafka-data:

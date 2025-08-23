@@ -7,7 +7,6 @@ import com.valber.financial_control.domain.entity.User;
 import com.valber.financial_control.infrastructure.api.dto.LoginRequest;
 import com.valber.financial_control.infrastructure.config.security.JwtTokenProvider;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
